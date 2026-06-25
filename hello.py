@@ -57,13 +57,40 @@
 # print(f'Your favorite color is {fav_color}.')
 
 #  test multiple inputs
-print('This', 'is', 'a', 'test', 'of', 'multiple', 'inputs.')
-print(12, 24, -2, sep='**')
-print('but', 'not', 'including', sep='')
+# print('This', 'is', 'a', 'test', 'of', 'multiple', 'inputs.')
+# print(12, 24, -2, sep='**')
+# print('but', 'not', 'including', sep='')
 
-# create a receipt for a customer
-# customer name
-# the price per item
-# item purchased
-# the total quantity
-# the total cost
+# Create a receipt,
+# print('Receipt')
+# print('--------------------------')
+# customerName = input("Enter customer's name: ")
+# itemPrice = float(input('what is the cost of the item '))
+# quantity = int(input('Enter quantity '))
+# totalCost = itemPrice * quantity
+# roundedCost = round(totalCost, 2)
+
+# 1. Collect all inputs first
+customer_name = input("Enter customer's name: ")
+item_price = float(input("What is the cost of the item? "))
+quantity = int(input("Enter quantity: "))
+
+# 2. Perform calculations
+total_cost = item_price * quantity
+# Using f-string formatting to ensure 2 decimal places
+formatted_total = f"{total_cost:.2f}"
+
+# 3. Print the formatted receipt
+print("\nReceipt")
+print("--------------------------")
+print(f"Customer: {customer_name}")
+print(f"Item price: ${item_price:.2f}")
+print(f"Quantity: {quantity}")
+print(f"Total cost: ${formatted_total}")
+
+name = input('What is your name? ')
+age = input('What is your age? ')
+
+print("Hello, " + name + "!")
+print("You are " + age + " years old.")
+
