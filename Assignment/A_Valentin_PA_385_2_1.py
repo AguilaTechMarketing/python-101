@@ -66,6 +66,7 @@ def search_by_title(movie_db):
 #     search_by_title(movies)
 # ====================================
 
+# step 3: Search by Genre
 def search_by_genre(movie_db):
     search_genre = input("Enter movie genre to search: ").strip().lower()
     found = False
@@ -90,3 +91,29 @@ def search_by_genre(movie_db):
 #     search_by_genre(movies)
 # ====================================
 
+# step 4: Search by Actors
+def search_by_actor(movie_db):
+    search_actor = input("Enter actor name to search movie list: ").strip().lower()
+    found = False
+
+    print(f"\nSearch for actor: {search_actor}...")
+
+    # Iterate through every movie in the database
+    for title, info in movie_db.items():
+        # Get the list of actors and convert all names to lowercase for matching
+        actors_list = [actor.lower() for actor in info.get("actors", [])]
+        
+        # Check if the search term is in that list
+        if search_actor in actors_list:
+            print(f"Found: {title} (Actors: {', '.join(info['actors'])})")
+            found = True
+            
+    if not found:
+        print("Actor not found in database. Try new search!")
+
+# ====================================
+# TEST BLOCK Comment out once verified
+# ====================================
+# if __name__ == "__main__":
+#     search_by_actor(movies)
+# ====================================
