@@ -44,7 +44,7 @@ movies = {
 # print("Top 10 Movies Dictionary:", movies)
 # ====================================
 
-# Sprint 2a: Search by Title
+# Sprint 2: Search by Title
 # Step 1: Check if the title exists in the dictionary
 # Step 2: Displaying the movie details
 def search_by_title(movie_db):
@@ -117,3 +117,60 @@ def search_by_actor(movie_db):
 # if __name__ == "__main__":
 #     search_by_actor(movies)
 # ====================================
+
+# Sprint 3: View All and Delete Functions
+# View All: Displays all movies and their details View All and Delete Functions.
+
+def view_all_movies(movie_db):
+    if not movie_db:
+        print("\nThe database is currently empty.")
+        return
+    
+    print("\n--- Current Movie Database ---")
+    for title, info in movie_db.items():
+        print(f"\nTitle: {title}")
+        print(f" Year: {info['year']}")
+        print(f" Genre: {info['Genre']}")
+        print(f" Director: {info['director']}")
+        print(f" Actors: {', '.join(info['actors'])}")
+    print("\n-------------------------------------")
+
+# Delete a movie: Removes a movie entry by title
+
+def delete_movie(movie_db):
+    """
+    Prompts the user for a movie title and removes it from the database if found.
+    Includes a confirmation step to prevent accidental deletion.
+    """
+    title_to_delete = input("\nEnter the title of the movie you want to delete: ").strip()
+    
+    # Check if the title exists in the dictionary
+    if title_to_delete in movie_db:
+        confirm = input(f"Are you sure you want to delete '{title_to_delete}'? (y/n): ").strip().lower()
+        
+        if confirm == 'y':
+            del movie_db[title_to_delete]
+            print(f"Success: '{title_to_delete}' has been removed from the database.")
+        else:
+            print("Action cancelled. No changes were made.")
+    else:
+        print(f"Error: '{title_to_delete}' not found in the database. Please check the spelling and try again.")
+
+# ====================================
+# TEST BLOCK: Verify View All and Delete
+# ====================================
+if __name__ == "__main__":
+    # 1. Show the database before deleting
+    print("\n--- TEST: VIEW ALL ---")
+    view_all_movies(movies)
+    
+    # 2. Test the delete function
+    print("\n--- TEST: DELETE MOVIE ---")
+    delete_movie(movies)
+    
+    # 3. Show the database after deleting to verify the change
+    print("\n--- TEST: VERIFY DELETION ---")
+    view_all_movies(movies)
+# ====================================
+
+
