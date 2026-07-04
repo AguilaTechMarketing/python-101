@@ -156,21 +156,68 @@ def delete_movie(movie_db):
     else:
         print(f"Error: '{title_to_delete}' not found in the database. Please check the spelling and try again.")
 
+# Add a movie: Take user input & add it to the dictionary
+def add_movie(movie_db):
+    print("\n--- Add a New Movie ---")
+    title = input("Enter movie title: ").strip()
+    if title in movie_db:
+        print("Error: This movie already exists in the database.")
+        return
+    year = input("Enter release year: ").strip()
+    genre = input("Enter genre: ").strip()
+    director = input("Enter director: ").strip()
+    actors = input("Enter actors (comma-separated): ").split(",")
+
+    # Create the new entry
+    movie_db[title] = {
+        "year" : int(year),
+        "Genre" : genre,
+        "director" : director,
+        "actors" : [actor.strip() for actor in actors]
+    }
+    print(f"\nSuccess: '{title}' has been added.")
+
+# Edit a movie: Updates existing information
+def edit_movie(movie_db):
+    title = input("\nEnter the title of the movie you want to edit: ").strip()
+
+    if title not in movie_db:
+        print("Error: Movie not found.")
+        return
+    
+    print(f"Editing '{title}'. Leave blank to keep current value.")
+
+    # Updating fields
+    new_year = input(f"Current year ({movie_db[title]['year']}): ").strip()
+    if new_year: movie_db[title]['year'] = int(new_year)
+
+    new_genre = input(f"Current genre ({movie_db[title]['Genre']}): ").strip()
+    if new_genre: movie_db[title]['Genre'] = new_genre
+
+    new_director = input(f"Current director ({movie_db[title]['director']}): ").strip()
+    if new_director: movie_db[title]['director'] = new_director
+
+    print(f"Success: '{title}' has been updated.")
+
 # ====================================
 # TEST BLOCK: Verify View All and Delete
 # ====================================
 if __name__ == "__main__":
-    # 1. Show the database before deleting
-    print("\n--- TEST: VIEW ALL ---")
+    # 1. Test Add Movie
+    print("n--- Test: ADD MOVIE ---")
+    add_movie(movies)
+
+    # 2. TEST EDIT MOVIE
+    print("n--- TEST: EDIT MOVIE ---")
+    edit_movie(movies)
+
+    # 3. Test View All (to see the new/updated data)
+    print("\n--- TEST: VIEW ALL---")
     view_all_movies(movies)
-    
-    # 2. Test the delete function
+
+    # 4. Test Delete Movie
     print("\n--- TEST: DELETE MOVIE ---")
     delete_movie(movies)
-    
-    # 3. Show the database after deleting to verify the change
-    print("\n--- TEST: VERIFY DELETION ---")
-    view_all_movies(movies)
 # ====================================
 
 
