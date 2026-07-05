@@ -222,8 +222,6 @@ def add_movie(movie_db):
         "actors" : actors
     }
 
-    save_data(movie_db)
-    print(f"\nSuccess: '{title}' has been added.")
    # ====================================
 
     # Sprint 4: Save after adding
@@ -280,4 +278,5 @@ if __name__ == "__main__":
     delete_movie(movies)
 # ====================================
 
+    
 
