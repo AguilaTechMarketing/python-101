@@ -2,46 +2,77 @@
 # GLAB 385.2.1
 # Date: July 2026
 
-# Phase 1: Dictionary Logic
-# Sprint 1: Define a dictionary of movies w/ info
-movies = {
-    "The Usual Suspects": {
-        "year": 1995,
-        "Genre": "Crime/Thriller",
-        "director": "Bryan Singer",
-        "actors": ["Kevin Spacey", "Benicio del Toro", "Gabriel Byrne", "Stephen Baldwin", "Chazz Palminteri", "Kevin Pollak", "Pete Postlethwaite"]
-    },
-    "Reservoir Dogs": {
-        "year": 1992,
-        "Genre": "Crime/Thriller",
-        "director": "Quentin Tarantino",
-        "actors": ["Harvey Keitel", "Michael Madsen", "Tim Roth", "Steve Buscemi", "Chris Penn"]
-    },
-    "The Sixth Sense": {
-        "year": 1999,
-        "Genre": "Horror/Mystery",
-        "director": "M. Night Shyamalan",
-        "actors": ["Haley Joel Osment", "Bruce Willis", "Toni Collette", "Donnie Wahlberg"]
-    },
-    "Sin City": {
-        "year": 2005,
-        "Genre": "Action/Crime",
-        "director": "Frank Miller",
-        "actors": ["Mickey Rourke", "Bruce Willis", "Jessica Alba", "Rosario Dawson", "Benicio del Toro"]
-    },
-    "The Dark Knight": {
-        "year": 2008,
-        "Genre": "Action/Crime",
-        "director": "Christopher Nolan",
-        "actors": ["Christian Bale", "Heath Ledger", "Aaron Eckhart", "Michael Caine"]
-    }
+# ====================================
+# Sprint 4: Import JSON
+import json
+import os
 
-}
+DB_FILE = "A_Valentin_PA_385_2_1.json"
+
+def load_data():
+    if not os.path.exists(DB_FILE) or os.path.getsize(DB_FILE) == 0:
+        return {} 
+    with open(DB_FILE, "r") as file:
+        try:
+            return json.load(file)
+        except json.JSONDecodeError:
+            return {}
+    
+def save_data(movie_db):
+    with open(DB_FILE, "w") as file:
+        json.dump(movie_db, file, indent=4)
+# ====================================
+
+# # Phase 1: Dictionary Logic
+# # Sprint 1: Define a dictionary of movies w/ info
+# movies = {
+#     "The Usual Suspects": {
+#         "year": 1995,
+#         "Genre": "Crime/Thriller",
+#         "director": "Bryan Singer",
+#         "actors": ["Kevin Spacey", "Benicio del Toro", "Gabriel Byrne", "Stephen Baldwin", "Chazz Palminteri", "Kevin Pollak", "Pete Postlethwaite"]
+#     },
+#     "Reservoir Dogs": {
+#         "year": 1992,
+#         "Genre": "Crime/Thriller",
+#         "director": "Quentin Tarantino",
+#         "actors": ["Harvey Keitel", "Michael Madsen", "Tim Roth", "Steve Buscemi", "Chris Penn"]
+#     },
+#     "The Sixth Sense": {
+#         "year": 1999,
+#         "Genre": "Horror/Mystery",
+#         "director": "M. Night Shyamalan",
+#         "actors": ["Haley Joel Osment", "Bruce Willis", "Toni Collette", "Donnie Wahlberg"]
+#     },
+#     "Sin City": {
+#         "year": 2005,
+#         "Genre": "Action/Crime",
+#         "director": "Frank Miller",
+#         "actors": ["Mickey Rourke", "Bruce Willis", "Jessica Alba", "Rosario Dawson", "Benicio del Toro"]
+#     },
+#     "The Dark Knight": {
+#         "year": 2008,
+#         "Genre": "Action/Crime",
+#         "director": "Christopher Nolan",
+#         "actors": ["Christian Bale", "Heath Ledger", "Aaron Eckhart", "Michael Caine"]
+#     }
+
+# }
+
+# # ====================================
+# # TEST BLOCK Comment out once verified
+# # ====================================
+# # print("Top 10 Movies Dictionary:", movies)
+# # ====================================
 
 # ====================================
-# TEST BLOCK Comment out once verified
-# ====================================
-# print("Top 10 Movies Dictionary:", movies)
+# Sprint 4: Initialize the database by loading from the file
+movies = load_data()
+
+# If the file was empty (or didn't exist), you can provide a default 
+# set or start with an empty dictionary.
+if not movies:
+    print("Database is empty or newly initialized!")
 # ====================================
 
 # Sprint 2: Search by Title
@@ -150,31 +181,54 @@ def delete_movie(movie_db):
         
         if confirm == 'y':
             del movie_db[title_to_delete]
+            # ====================================
+            # Sprint 4:
+            save_data(movie_db)
+            # ====================================
             print(f"Success: '{title_to_delete}' has been removed from the database.")
         else:
             print("Action cancelled. No changes were made.")
     else:
         print(f"Error: '{title_to_delete}' not found in the database. Please check the spelling and try again.")
 
+# ====================================
+# Sprint4:
 # Add a movie: Take user input & add it to the dictionary
 def add_movie(movie_db):
     print("\n--- Add a New Movie ---")
     title = input("Enter movie title: ").strip()
-    if title in movie_db:
-        print("Error: This movie already exists in the database.")
-        return
-    year = input("Enter release year: ").strip()
-    genre = input("Enter genre: ").strip()
-    director = input("Enter director: ").strip()
-    actors = input("Enter actors (comma-separated): ").split(",")
 
-    # Create the new entry
+    if not title:
+        print("Error: Title cannot be empty.")
+        return
+    if title in movie_db:
+        print("Error: This movie already exist.")
+
+    # Validate year
+    year = input("Enter release year (YYYY): ").strip()
+    if not year.isdigit() or len(year) != 4:
+        print("Error: Invalid year format. Please enter a 4 digit year.")
+        return
+    
+    genre = input("Enter genre: ").strip() or "Unknown"
+    director = input("Enter director: ").strip() or "Unknown"
+    actors_input = input("Enter actors (Comma-separated): ").strip()
+    actors = [a.strip() for a in actors_input.split(",") if a.strip()]
+
     movie_db[title] = {
         "year" : int(year),
         "Genre" : genre,
         "director" : director,
-        "actors" : [actor.strip() for actor in actors]
+        "actors" : actors
     }
+
+    save_data(movie_db)
+    print(f"\nSuccess: '{title}' has been added.")
+   # ====================================
+
+    # Sprint 4: Save after adding
+    save_data(movie_db)
+    # ====================================
     print(f"\nSuccess: '{title}' has been added.")
 
 # Edit a movie: Updates existing information
@@ -197,7 +251,13 @@ def edit_movie(movie_db):
     new_director = input(f"Current director ({movie_db[title]['director']}): ").strip()
     if new_director: movie_db[title]['director'] = new_director
 
+    # ====================================
+    # Sprint 4:
+    save_data(movie_db)
+    # ====================================
     print(f"Success: '{title}' has been updated.")
+    
+
 
 # ====================================
 # TEST BLOCK: Verify View All and Delete
