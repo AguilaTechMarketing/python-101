@@ -88,8 +88,8 @@ print("OG")
 print("Original List:", original_list)
 print("NR")
 print("New Reference:", new_reference)
-print("Boolean statement: Is 'OG' equal to 'NR'")
-print(original_list == new_reference)
+print("Boolean statement:")
+print("Is 'OG' equal to 'NR'", original_list == new_reference)
 print("")
 
 # Properly copying a list using the .copy() method
@@ -105,8 +105,8 @@ print("OG")
 print("Original List:", original_list)
 print("Copy")
 print("Copied List:", copied_list)
-print("Boolean statement: Is 'OG' equal to 'Copy'")
-print(original_list == copied_list)
+print("Boolean statement:")
+print("Is 'OG' equal to 'Copy'?", original_list == copied_list)
 print("")
 
 # Variables reference the same list
