@@ -3,31 +3,59 @@
 # July 2026
 
 import csv
+import os
 
-# csv.reader
-def task_1_basic_reader(filename):
-    print("\n====================================")
-    print("\n--- Task 1: Basic CSV Reader ---\n")
-    print("====================================\n")
-    with open(filename, encoding="utf8") as f:
+file_path = 'country.csv'
+
+# 0. SETUP: Ensure the data file exists for the instructor
+if not os.path.exists(file_path):
+    with open(file_path, 'w', encoding="utf8", newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(['name', 'area', 'country_code2', 'country_code3'])
+        writer.writerow(['United States', '9833520', 'US', 'USA'])
+        writer.writerow(['Canada', '9984670', 'CA', 'CAN'])
+        writer.writerow(['Mexico', '1972550', 'MX', 'MEX'])
+
+# 1. Technique: Enumerate (Identifying Header vs Data)
+def run_task_enumerate():
+    print("\n--- Task: Using Enumerate to ID Header ---")
+    with open(file_path, encoding="utf8") as f:
         reader = csv.reader(f)
-        next(reader) # Skip Header
-        for row in reader:
-            print(row)
+        for line_no, line in enumerate(reader, 1):
+            if line_no == 1:
+                print(f"Header: {line}")
+            else:
+                print(f"Data Row {line_no}: {line}")
 
+# 2. Technique: Using next() to skip header
+def run_task_next():
+    print("\n--- Task: Using next() to skip header ---")
+    with open(file_path, encoding="utf8") as f:
+        reader = csv.reader(f)
+        next(reader) # Skips the first row
+        for line in reader:
+            print(line)
 
-# csv.DictReader
-def task_2_dict_reader(filename):
-    print("\n====================================")
-    print("\n--- Task 2: DictReader ---\n")
-    print("====================================\n")
-    with open(filename, encoding="utf8") as f:
+# 3. Technique: DictReader
+def run_task_dict_reader():
+    print("\n--- Task: DictReader ---")
+    with open(file_path, encoding="utf8") as f:
         reader = csv.DictReader(f)
-        for row in reader:
-            print(f"Country: {row['name']}, code: {row['country_code2']}")
+        for line in reader:
+            print(f"The area of {line['name']} is {line['area']} km2")
 
-# Main execution block
+# 4. Technique: Custom Fieldnames
+def run_task_custom_fields():
+    print("\n--- Task: Custom Fieldnames ---")
+    fieldnames = ['country_name', 'area', 'code2', 'code3']
+    with open(file_path, encoding="utf8") as f:
+        reader = csv.DictReader(f, fieldnames=fieldnames)
+        next(reader) # Skip the original header to avoid it being read as data
+        for line in reader:
+            print(f"The area of {line['country_name']} is {line['area']} km2")
+
 if __name__ == "__main__":
-    file_path = 'country.csv'
-    task_1_basic_reader(file_path)
-    task_2_dict_reader(file_path)
+    run_task_enumerate()
+    run_task_next()
+    run_task_dict_reader()
+    run_task_custom_fields()
