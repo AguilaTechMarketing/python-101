@@ -18,7 +18,9 @@ if not os.path.exists(file_path):
 
 # 1. Technique: Enumerate (Identifying Header vs Data)
 def run_task_enumerate():
-    print("\n--- Task: Using Enumerate to ID Header ---")
+    print("\n====================================")
+    print("\n--- Task: Using Enumerate to ID Header ---\n")
+    print("====================================\n")
     with open(file_path, encoding="utf8") as f:
         reader = csv.reader(f)
         for line_no, line in enumerate(reader, 1):
@@ -29,7 +31,9 @@ def run_task_enumerate():
 
 # 2. Technique: Using next() to skip header
 def run_task_next():
-    print("\n--- Task: Using next() to skip header ---")
+    print("\n====================================")
+    print("\n--- Task: Using next() to skip header ---\n")
+    print("====================================\n")
     with open(file_path, encoding="utf8") as f:
         reader = csv.reader(f)
         next(reader) # Skips the first row
@@ -38,7 +42,9 @@ def run_task_next():
 
 # 3. Technique: DictReader
 def run_task_dict_reader():
-    print("\n--- Task: DictReader ---")
+    print("\n====================================")
+    print("\n--- Task: DictReader ---\n")
+    print("====================================\n")
     with open(file_path, encoding="utf8") as f:
         reader = csv.DictReader(f)
         for line in reader:
@@ -46,7 +52,9 @@ def run_task_dict_reader():
 
 # 4. Technique: Custom Fieldnames
 def run_task_custom_fields():
-    print("\n--- Task: Custom Fieldnames ---")
+    print("\n====================================")
+    print("\n--- Task: Custom Fieldnames ---\n")
+    print("====================================\n")
     fieldnames = ['country_name', 'area', 'code2', 'code3']
     with open(file_path, encoding="utf8") as f:
         reader = csv.DictReader(f, fieldnames=fieldnames)
