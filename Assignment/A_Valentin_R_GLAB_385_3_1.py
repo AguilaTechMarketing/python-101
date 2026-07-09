@@ -11,7 +11,7 @@ def add_contact():
     phone = input("Enter the contact's phone number: ")
     with open("contacts.txt", "a") as file:
         file.write(f"{name}: {phone}\n")
-    print(f"{name} has been added to your contacts!")
+    print(f"\n{name} has been added to your contacts!")
 # ====================================
 # TEST BLOCK Comment out once verified
 # ====================================
@@ -25,13 +25,13 @@ def view_contacts():
         with open("contacts.txt", "r") as file:
             contacts = file.readlines()
             if not contacts:
-                print("Your contact list is empty.")
+                print("\nYour contact list is empty.")
             else:
-                print("Your contact list:")
+                print("\nYour contact list:")
                 for contact in contacts:
                     print(contact, end='')
     except FileNotFoundError:
-        print("Your contact list is empty.")
+        print("\nYour contact list is empty.")
 # ====================================
 # TEST BLOCK Comment out once verified
 # ====================================
@@ -39,21 +39,55 @@ def view_contacts():
 #     view_contacts()
 # ====================================
 
+def del_contact():
+    try:
+        with open("contacts.txt", "r") as file:
+            contacts = file.readlines()
+        
+        if not contacts:
+            print("\nYour Contact list is empty.")
+            return
+
+        # Show contacts with numbers for selection
+        print("\nYour contact list: ")
+        for i, contact in enumerate(contacts, 1):
+            print(f"\n{i}. {contact.strip()}")
+
+        # Get selection
+        choice = int(input("\nEnter the number of the contact to delete: "))
+        
+        if 1 <= choice <= len(contacts):
+            removed = contacts.pop(choice - 1)
+            # Write the updated list back to the file
+            with open("contacts.txt", "w") as file:
+                file.writelines(contacts)
+            print(f"\nSuccess: '{removed.strip()}' has been deleted.")
+        else:
+            print("\nInvalid selection.")
+
+    except FileNotFoundError:
+        print("\nYour contact list is empty (file not found).")
+    except ValueError:
+        print("\nInvalid input. Please enter a valid number.")
+
 def main():
     while True:
         print("\nContact List Application")
         print("1. Add Contact")
         print("2. View Contacts")
-        print("3. Quit")
-        choice = input("Enter your choice: " )
+        print("3. Delete Contact")
+        print("4. Quit")
+        choice = input("\nEnter your choice: " )
         if choice == "1":
             add_contact()
         elif choice == "2":
             view_contacts()
         elif choice == "3":
-            print("Goodbye!")
+            del_contact()
+        elif choice == "4":
+            print("\nGoodbye!\n")
             break
         else:
-            print("Invalid choice. Please try again.")
+            print("\nInvalid choice. Please try again.")
 if __name__ == "__main__":
     main()
