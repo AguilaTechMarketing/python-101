@@ -49,7 +49,7 @@ def del_contact():
             return
 
         # Show contacts with numbers for selection
-        print("\nYour contact list: ")
+        print("\nYour contact list: \n")
         for i, contact in enumerate(contacts, 1):
             print(f"\n{i}. {contact.strip()}")
 
